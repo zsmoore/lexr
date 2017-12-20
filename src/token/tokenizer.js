@@ -52,6 +52,10 @@ export class Tokenizer {
     }
 
     removeToken(tokenName) {
+        if (this.strict) {
+            throw new noCustomTokensException(this.language);
+        }
+
         return delete this.tokens[tokenName];
     }
 

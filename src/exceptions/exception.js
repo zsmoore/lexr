@@ -11,7 +11,7 @@ export class languageNotFoundException {
 export class noCustomTokensException {
     constructor(language) {
         this.value = language;
-        this.message = "You are trying to add tokens to a pre-existing language '"
+        this.message = "You are trying to add or remove tokens to a pre-existing language '"
             + this.value + "' but you did not specify non-strict tokenizing";
     }
     toString() {
