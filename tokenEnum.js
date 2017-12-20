@@ -1,3 +1,4 @@
+import { fullNumericLiteral, fullStringLiteral } from './literalDefinitions.js'
 /*
 
     Created by Zachary Moore
@@ -10,49 +11,6 @@
     Found at: https://www.ecma-international.org/ecma-262
 
 */
-
-//  Numeric Literal
-const decimalDigit = new RegExp(/([0-9])/);
-const decimalDigits = new RegExp('(' + decimalDigit.source + '+)');
-const nonZeroDigit = new RegExp(/([1-9])/);
-const decimalIntegerLiteral = new RegExp('(0|(' + nonZeroDigit.source + decimalDigits.source + '?))');
-const signedInteger = new RegExp('((\\+|-)?' + decimalDigits.source + ')');
-const exponentIndicator = new RegExp('(e|E)');
-const exponentPart = new RegExp('(' + exponentIndicator.source + signedInteger.source + ')');
-const decimalLiteral = new RegExp('((' + decimalIntegerLiteral.source + '\\.' 
-    + decimalDigits.source + '?' + exponentPart.source + '?' + ')'
-    + '|(\\.' + decimalDigits.source + exponentPart.source + '?' + ')'
-    + '|(' + decimalIntegerLiteral.source + exponentPart.source + '?))');
-const hexDigit = new RegExp(/([0-9]|[a-f]|[A-F])/);
-const hexIntegerLiteral = new RegExp('((0x|0X)' + hexDigit.source + '+)');
-const numericLiteral = new RegExp('(' + decimalLiteral.source + '|' + hexIntegerLiteral.source + ')');
-const fullNumericLiteral = new RegExp('\\b' + numericLiteral.source + '\\b');
-
-// String Literal
-const lineTerminator = new RegExp();
-const lineTerminatorSequence = new RegExp();
-
-const characterEscapeSequence = new RegExp('()');
-const hexEscapeSequence = new RegExp('()');
-const unicodeEscapeSequence = new RegExp('()');
-
-const escapeSequence = new RegExp('(' + characterEscapeSequence.source +
-    + '|(0(?!' + decimalDigit.source + '))'
-    + '|' + hexEscapeSequence.source +
-    + '|' + unicodeEscapeSequence.source + ')');
-const lineContinuation = new RegExp('(\\' + lineTerminatorSequence.source + ')');
-
-
-const doubleStringCharacter = new RegExp('(([^\\"' + lineTerminator.source + '])|(\\'
-    + escapeSequence.source + ')' 
-    + '|(' + lineContinuation.source + '))');
-const doubleStringCharacters = new RegExp('(' + doubleStringCharacter.source + '+)');
-const singleStringCharacter = new RegExp("(([^\\'" + lineTerminator.source + "])|(\\"
-    + escapeSequence.source + ")"
-    + "|(" + lineContinuation.source + "))");
-const singleStringCharacters = new RegExp('(' + singleStringCharacter.source + '+)');
-const stringLiteral = new RegExp('(("' + doubleStringCharacters.source + '?")|(\''
-    + singleStringCharacters.source + '?\'))');
 
 const tokens = {
 
@@ -159,5 +117,6 @@ const tokens = {
     TRUE_LIT        : /true/,
     FALSE_LIT       : /false/,
     NUM_LIT         : fullNumericLiteral.source,
+    STRING_LIT      : fullStringLiteral.source,
 
 };
