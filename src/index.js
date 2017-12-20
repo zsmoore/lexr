@@ -1,4 +1,4 @@
-import { parse } from "./parse/parse.js"
+import { Tokenizer } from "./token/tokenizer.js"
 
 let input = ` if ( true ) {
     false;
@@ -38,4 +38,8 @@ if (condition1) {
     var els = 'esle';
 }
 var end = 'end';`;
-parse(input2);
+
+
+
+let tokenizer = new Tokenizer("Javascript");
+console.log(tokenizer.parse(input2));

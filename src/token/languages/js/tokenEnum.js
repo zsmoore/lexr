@@ -1,5 +1,5 @@
 import { fullNumericLiteral, fullStringLiteral, fullRegularExpressionLiteral, whiteSpace, comments } from './extendedRegex.js'
-import { identifier } from './misc.js'
+import { identifier } from './identifierRegex.js'
 /*
 
     Created by Zachary Moore
@@ -13,7 +13,7 @@ import { identifier } from './misc.js'
 
 */
 
-export const tokens = {
+export const jsTokens = {
 
     // White Space / Comments
     WHITESPACE      : whiteSpace,
