@@ -1,14 +1,14 @@
 {
-  "name": "jslex",
+  "name": "lexr",
   "version": "0.1.0",
-  "description": "Lexical analyzer built in Javascript for Javascript",
+  "description": "Lexical analyzer built in Javascript",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zsmoore/jsLex.git"
+    "url": "git+https://github.com/zsmoore/lexr.git"
   },
   "keywords": [
     "parse",
@@ -19,9 +19,9 @@
   "author": "Zachary Moore",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/zsmoore/jsLex/issues"
+    "url": "https://github.com/zsmoore/lexr/issues"
   },
-  "homepage": "https://github.com/zsmoore/jsLex#readme",
+  "homepage": "https://github.com/zsmoore/lexr#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0"
   },
