@@ -24,5 +24,8 @@
   "homepage": "https://github.com/zsmoore/jsLex#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0"
+  },
+  "dependencies": {
+    "webpack": "^3.10.0"
   }
 }

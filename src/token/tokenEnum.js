@@ -1,4 +1,4 @@
-import { fullNumericLiteral, fullStringLiteral, fullRegularExpressionLiteral, whiteSpace, comments } from './literalDefinitions.js'
+import { fullNumericLiteral, fullStringLiteral, fullRegularExpressionLiteral, whiteSpace, comments } from './extendedRegex.js'
 import { identifier } from './misc.js'
 /*
 
@@ -13,7 +13,7 @@ import { identifier } from './misc.js'
 
 */
 
-const tokens = {
+export const tokens = {
 
     // White Space / Comments
     WHITESPACE      : whiteSpace,
@@ -77,7 +77,7 @@ const tokens = {
     R_PAREN         : /\)/,
     L_BRACKET       : /\[/,
     R_BRACKET       : /\]/,
-    DOT             : /./,
+    DOT             : /\./,
     SEMI_COLON      : /;/,
     COMMA           : /,/,
     L_THAN          : /</,
