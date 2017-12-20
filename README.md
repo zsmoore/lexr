@@ -1,4 +1,4 @@
-# jsLex
+# lexr
 Lexical analyzer built in Javascript.  
 
 ## Features  
