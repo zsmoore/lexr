@@ -22,10 +22,6 @@
     "url": "https://github.com/zsmoore/lexr/issues"
   },
   "homepage": "https://github.com/zsmoore/lexr#readme",
-  "devDependencies": {
-    "babel-cli": "^6.26.0"
-  },
-  "dependencies": {
-    "webpack": "^3.10.0"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }
