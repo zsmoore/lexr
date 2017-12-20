@@ -1,4 +1,5 @@
-import { fullNumericLiteral, fullStringLiteral } from './literalDefinitions.js'
+import { fullNumericLiteral, fullStringLiteral, fullRegularExpressionLiteral, whiteSpace } from './literalDefinitions.js'
+import { identifier } from './misc.js'
 /*
 
     Created by Zachary Moore
@@ -13,6 +14,13 @@ import { fullNumericLiteral, fullStringLiteral } from './literalDefinitions.js'
 */
 
 const tokens = {
+
+    // White Space / Comments
+    WHITESPACE      : whiteSpace,
+
+
+    // Identifier
+    IDENTIFIER      : identifier,
 
     // Keywords
     BREAK           : /break/,
@@ -118,5 +126,6 @@ const tokens = {
     FALSE_LIT       : /false/,
     NUM_LIT         : fullNumericLiteral.source,
     STRING_LIT      : fullStringLiteral.source,
+    REGEXP_LIT      : fullRegularExpressionLiteral.source,
 
 };

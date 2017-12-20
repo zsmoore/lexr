@@ -11,9 +11,12 @@
 
 */
 
+// Comments
+
 // General / whitespace
 const lineTerminator = new RegExp(/(\u000A|\u000D|\u2028|\u2029)/);
 const lineTerminatorSequence = new RegExp(/(\u000A|\u000D(?!\u000A)|\u2028|\u2029|\u000D\u000A)/);
+export const whiteSpace = new RegExp(/(\u0009|\u000B|\u000C|\u0020|\u00A0|\uFEFF| )/);
 
 //  Numeric Literal
 const decimalDigit = new RegExp(/([0-9])/);
@@ -36,32 +39,59 @@ const singleEscapeCharacter = new RegExp(/('|"|\\|b|f|n|r|t|v)/);
 const escapeCharacter = new RegExp('(' + singleEscapeCharacter.source
     + '|' + decimalDigit.source
     + '|x|u)');
-const nonEscapeCharacter = new RegExp('([^' + escapeCharacter.source 
+const nonEscapeCharacter = new RegExp('([^' + escapeCharacter.source.replace(/\[|\]/g, "") 
     + '|' + lineTerminator.source + '])');
 const characterEscapeSequence = new RegExp('(' + singleEscapeCharacter.source
     + '|' + nonEscapeCharacter.source + ')');
 const hexEscapeSequence = new RegExp('(x' + hexDigit.source + hexDigit.source + ')');
-const unicodeEscapeSequence = new RegExp('(u' + hexDigit.source + hexDigit.source +
-    hexDigit.source + hexDigit.source + ')');
-const escapeSequence = new RegExp('(' + characterEscapeSequence.source +
+const unicodeEscapeSequence = new RegExp('(u' + hexDigit.source + hexDigit.source
+    + hexDigit.source + hexDigit.source + ')');
+const escapeSequence = new RegExp('(' + characterEscapeSequence.source
     + '|(0(?!' + decimalDigit.source + '))'
-    + '|' + hexEscapeSequence.source +
+    + '|' + hexEscapeSequence.source
     + '|' + unicodeEscapeSequence.source + ')');
-const lineContinuation = new RegExp('(\\' + lineTerminatorSequence.source + ')');
-const doubleStringCharacter = new RegExp('(([^\\"' + lineTerminator.source + '])|(\\'
+const lineContinuation = new RegExp('(\\\\' + lineTerminatorSequence.source + ')');
+const doubleStringCharacter = new RegExp('(([^\\\\"' + lineTerminator.source + '])|(\\\\'
     + escapeSequence.source + ')' 
     + '|(' + lineContinuation.source + '))');
 const doubleStringCharacters = new RegExp('(' + doubleStringCharacter.source + '+)');
-const singleStringCharacter = new RegExp("(([^\\'" + lineTerminator.source + "])|(\\"
+const singleStringCharacter = new RegExp("(([^\\\\'" + lineTerminator.source + "])|(\\\\"
     + escapeSequence.source + ")"
     + "|(" + lineContinuation.source + "))");
 const singleStringCharacters = new RegExp('(' + singleStringCharacter.source + '+)');
 const stringLiteral = new RegExp('(("' + doubleStringCharacters.source + '?")|(\''
     + singleStringCharacters.source + '?\'))');
 
-
-
+// Regex Literals
+const regularExpressionNonTerminator = new RegExp('([^' + lineTerminator.source
+    + '])');
+console.log(regularExpressionNonTerminator.source);
+const regularExpressionBackslashSequence = new RegExp('(\\\\'
+    + regularExpressionNonTerminator.source + ')');
+const regularExpressionClassChar = new RegExp('(([^\\]\\\\]'
+    + regularExpressionNonTerminator.source + ')'
+    + '|' + regularExpressionBackslashSequence.source + ')');
+const regularExpressionFlags = new RegExp(/(g|i|m|u|y)?/);
+const regularExpressionClassChars = new RegExp('(' +
+    regularExpressionClassChar.source + '*)?');
+const regularExpressionClass = new RegExp('(\\[' 
+    + regularExpressionClassChars.source + '\\])');
+const regularExpressionFirstChar = new RegExp('(([^*\\\\/\\[]' 
+    + regularExpressionNonTerminator.source + ')'
+    + '|' + regularExpressionBackslashSequence.source
+    + '|' + regularExpressionClass.source + ')');
+const regularExpressionChar = new RegExp('(([^\\\\/\\[]'
+    + regularExpressionNonTerminator.source + ')'
+    + '|' + regularExpressionBackslashSequence.source + 
+    + '|' + regularExpressionClass.source + ')');
+const regularExpressionChars = new RegExp('(|' + regularExpressionChar.source + '+)');
+const regularExpressionBody = new RegExp('(' + regularExpressionFirstChar.source
+    + regularExpressionChars.source + ')');
+const regularExpressionLiteral = new RegExp('(/' + regularExpressionBody.source
+    + '/' + regularExpressionFlags.source + ')');
+console.log(regularExpressionLiteral.source);
 
 // Final Exports
-export const fullNumericLiteral = new RegExp('\\b' + numericLiteral.source + '\\b');
-export const fullStringLiteral = new RegExp('\\b' + stringLiteral.source + '\\b');
+export const fullNumericLiteral = new RegExp(numericLiteral.source + '\\b');
+export const fullStringLiteral = new RegExp(stringLiteral.source);
+export const fullRegularExpressionLiteral = new RegExp(regularExpressionLiteral.source);
