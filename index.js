@@ -1,2 +1,2 @@
-let jsLex = require('./src/token/tokenizer.js');
-module.exports = jsLex;
+let lexr = require('./src/token/tokenizer.js');
+module.exports = lexr;
