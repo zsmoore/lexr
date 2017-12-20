@@ -12,6 +12,7 @@
 */
 
 // Comments
+export const comments = /(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm;
 
 // General / whitespace
 const lineTerminator = new RegExp(/(\u000A|\u000D|\u2028|\u2029)/);

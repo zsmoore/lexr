@@ -1,4 +1,4 @@
-import { fullNumericLiteral, fullStringLiteral, fullRegularExpressionLiteral, whiteSpace } from './literalDefinitions.js'
+import { fullNumericLiteral, fullStringLiteral, fullRegularExpressionLiteral, whiteSpace, comments } from './literalDefinitions.js'
 import { identifier } from './misc.js'
 /*
 
@@ -17,7 +17,7 @@ const tokens = {
 
     // White Space / Comments
     WHITESPACE      : whiteSpace,
-
+    COMMENT         : comments,
 
     // Identifier
     IDENTIFIER      : identifier,
