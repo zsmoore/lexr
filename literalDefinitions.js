@@ -32,7 +32,7 @@ const hexIntegerLiteral = new RegExp('((0x|0X)' + hexDigit.source + '+)');
 const numericLiteral = new RegExp('(' + decimalLiteral.source + '|' + hexIntegerLiteral.source + ')');
 
 // String Literal
-const singleEscapeCharacter = new RegExp('(\'|"|\\\\|b|f|n|r|t|v)');
+const singleEscapeCharacter = new RegExp(/('|"|\\|b|f|n|r|t|v)/);
 const escapeCharacter = new RegExp('(' + singleEscapeCharacter.source
     + '|' + decimalDigit.source
     + '|x|u)');
