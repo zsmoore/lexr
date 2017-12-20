@@ -2,7 +2,7 @@ import { languages } from "./languages/languageEnum.js"
 import { languageNotFoundException, noCustomTokensException, duplicateTokenException } from "../exceptions/exception.js"
 import { parse } from "../parse/parse.js"
 
-export class Tokenizer {
+export default class Tokenizer {
 
     constructor(language) {
         if (language == "") {

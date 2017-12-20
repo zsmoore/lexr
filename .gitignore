@@ -60,3 +60,5 @@ typings/
 lib/
 script-compiled.js
 app.bundle.js
+bin/
+webpack.config.js
