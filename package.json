@@ -1,6 +1,6 @@
 {
   "name": "lexr",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Lexical analyzer built in Javascript",
   "main": "./dist/index.js",
   "scripts": {
