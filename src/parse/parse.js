@@ -2,7 +2,6 @@
 export function parse(aString, tokens) {
     let tok = [];
     let cop = aString.substring(0);
-    aString = aString.replace(/(\u000A|\u000D(?!\u000A)|\u2028|\u2029|\u000D\u000A)/g, "");
     while (aString) {
         let maxLength = 0;
         let index = 0;

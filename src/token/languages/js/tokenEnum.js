@@ -1,4 +1,4 @@
-import { fullNumericLiteral, fullStringLiteral, fullRegularExpressionLiteral, whiteSpace, comments } from './extendedRegex.js'
+import { fullNumericLiteral, fullStringLiteral, fullRegularExpressionLiteral, whiteSpace, comments, lineTerminatorSequence } from './extendedRegex.js'
 import { identifier } from './identifierRegex.js'
 /*
 
@@ -16,8 +16,9 @@ import { identifier } from './identifierRegex.js'
 export const jsTokens = {
 
     // White Space / Comments
-    WHITESPACE      : whiteSpace,
-    COMMENT         : comments,
+    WHITESPACE      : whiteSpace.source,
+    COMMENT         : comments.source,
+    NEW_LINE        : lineTerminatorSequence.source,
 
     // Identifier
     IDENTIFIER      : identifier,

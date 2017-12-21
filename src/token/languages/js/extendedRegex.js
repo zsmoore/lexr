@@ -16,7 +16,7 @@ export const comments = /(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm;
 
 // General / whitespace
 const lineTerminator = new RegExp(/(\u000A|\u000D|\u2028|\u2029)/);
-const lineTerminatorSequence = new RegExp(/(\u000A|\u000D(?!\u000A)|\u2028|\u2029|\u000D\u000A)/);
+export const lineTerminatorSequence = new RegExp(/(\u000A|\u000D(?!\u000A)|\u2028|\u2029|\u000D\u000A)/);
 export const whiteSpace = new RegExp(/(\u0009|\u000B|\u000C|\u0020|\u00A0|\uFEFF)/);
 
 //  Numeric Literal
