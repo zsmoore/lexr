@@ -1,2 +1,2 @@
 let Tokenizer = require('./token/tokenizer.js');
-module.exports = Tokenizer;
+module.exports.Tokenizer = Tokenizer;
