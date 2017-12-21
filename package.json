@@ -2,9 +2,9 @@
   "name": "lexr",
   "version": "0.1.2",
   "description": "Lexical analyzer built in Javascript",
-  "main": "./distribution/index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "build": "babel src --presets babel-preset-es2015 --out-dir distribution",
+    "build": "babel src --presets babel-preset-es2015 --out-dir dist",
     "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
