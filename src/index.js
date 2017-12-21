@@ -1,2 +1,2 @@
-let lexr = require('./token/tokenizer.js');
-module.exports = lexr;
+var Tokenizer = require('./token/tokenizer.js');
+module.exports = Tokenizer;
