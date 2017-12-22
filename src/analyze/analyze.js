@@ -1,10 +1,10 @@
 // Placeholder
-export function parse(aString, tokens) {
+export function tokenize(aString, tokens) {
     let tok = [];
-    let cop = aString.substring(0);
     while (aString) {
         let maxLength = 0;
         let index = 0;
+        let tokValue = "";
         let currTok = "";
         let tempArr = [];
         for (let key in tokens) {
@@ -12,13 +12,14 @@ export function parse(aString, tokens) {
             if (tempArr !== null && tempArr['index'] <= index && tempArr[0].length > maxLength) {
                 index = tempArr['index'] === undefined ? 0 : tempArr['index'];
                 maxLength = tempArr[0].length;
+                tokValue = tempArr[0];
                 currTok = key;
             }
         }
         let before = aString.substring(0, index);
         let after = aString.substring(index + maxLength, aString.length);
         aString = before + after;
-        if (tokens[currTok] !== tokens.WHITESPACE) tok.push(currTok);
+        tok.push({ token: currTok, value: tokValue});
     }
     return tok;
 }

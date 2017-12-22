@@ -1,6 +1,6 @@
 import { languages } from "./languages/languageEnum.js"
 import { languageNotFoundException, noCustomTokensException, duplicateTokenException } from "../exceptions/exception.js"
-import { parse } from "../parse/parse.js"
+import { tokenize } from "../analyze/analyze.js"
 
 class Tokenizer {
 
@@ -63,8 +63,8 @@ class Tokenizer {
         this.strict = false;
     }
 
-    parse(aString) {
-        return parse(aString, this.tokens);
+    tokenize(aString) {
+        return tokenize(aString, this.tokens);
     }
 }
 
