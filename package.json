@@ -13,8 +13,19 @@
     "url": "git+https://github.com/zsmoore/lexr.git"
   },
   "keywords": [
-    "parse",
+    "lex",
+    "lexer",
+    "lexical",
+    "analysis",
+    "scan",
+    "scanner",
+    "scanning",
     "token",
+    "tokenize",
+    "tokenizer",
+    "flex",
+    "language support",
+    "built in",
     "javascript",
     "lexical"
   ],
