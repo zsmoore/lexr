@@ -68,6 +68,32 @@ class Tokenizer {
         this.ignore[tokenName] = true;
     }
 
+    addIgnoreSet(tokens) {
+        if (!(tokens instanceof Array) && !(tokens instanceof Object)) {
+            throw new TypeError("addIgnoreSet expects either an array of tokens or object of tokens to ignore or not");
+        }
+
+        if (tokens instanceof Array) {
+            for (let i = 0; i < tokens.length; i++) {
+                if (!(tokens[i] in this.tokens)) {
+                    throw new noSuchTokenException(tokens[i]);
+                }
+                this.ignore[tokens[i]] = true;
+            }
+        } else if (tokens instanceof Object) {
+            for (let key in tokens) {
+                if (!(key in this.tokens)) {
+                    throw new noSuchTokenException(key);
+                }
+
+                if (tokens[key] !== true && tokens[key] !== false) {
+                    throw new TypeError("When using an object for ignoring the value must be a boolean");
+                }                
+                this.ignore[key] = tokens[key];
+            }
+        }
+    }
+
     disableStrict() {
         this.strict = false;
     }
