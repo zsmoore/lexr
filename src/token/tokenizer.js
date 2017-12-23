@@ -62,7 +62,7 @@ class Tokenizer {
 
     addIgnore(tokenName) {
         if (!(tokenName in this.tokens)) {
-            throw new noSuchtokenException(tokenName);
+            throw new noSuchTokenException(tokenName);
         }
 
         this.ignore[tokenName] = true;
@@ -92,6 +92,13 @@ class Tokenizer {
                 this.ignore[key] = tokens[key];
             }
         }
+    }
+
+    unIgnore(tokenName) {
+        if (!(tokenName in this.tokens)) {
+            throw new noSuchTokenException(tokenName);
+        }
+        this.ignore[tokenName] = false;
     }
 
     disableStrict() {
