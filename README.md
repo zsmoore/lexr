@@ -1,8 +1,7 @@
 # lexr
 Lexical analyzer built in Javascript.  
   
-lexr is meant to be a lightweight tokenizer that re-thinks how to do tokenizing instead of becoming just a flex clone.  
-Moving to a modern language such as Javascript should allow the use of a lexical analyzer to be more modern and clean than the C ancestor.  
+lexr is meant to be a lightweight tokenizer built in Javascript to be more modern and clean than the C ancestor.  
 
 ## Goals  
 lexr is compartmentalized to be able to work on its own however is aimed to be used hand in hand with [grammr](https://github.com/zsmoore/grammr) once the project is finished.  
@@ -19,9 +18,14 @@ The current Lexical Analyzer has built-in support for Javascript with a plan on 
 If you do not see your language supported or would like to simply use custom tokens it is possible to do so as well.   
   
 As a result of having a lightweight library in mind, you can not currently add functions to the tokenizer to happen when a token is captured.  
-This is an effort to re-think how things are done as well as stay lightweight.  
-This way the user will either push off that functionality to the grammr or force the user to manually analyze the tokens and perform their own functions afterwards.
 
+What is currently supported is  
+* Using built-in or custom tokens
+* Adding Tokens either one by one or in a set to the tokenizer
+* Removing Tokens from the token set
+* Ignoring tokens for output either one by one or in a set  
+* UnIgnoring tokens from the token set
+  
 ## Built-In Language Support
 * Javascript  
 
@@ -39,7 +43,7 @@ If you would like to use fully custom tokens then simply initialize as so:
 ```javascript
 let tokenizer = new lexr.Tokenizer("");
 ```
-If you have selected a built-in language you will not be able to add more tokens until you disable `strict` mode for tokens.  
+If you have selected a built-in language you will not be able to add or remove tokens until you disable `strict` mode for tokens.  
 To do so call the `disableStrict()` function on the tokenizer instance.  
 
 Once you have done so or if you are working on a fully custom tokenizer you can add tokens 2 ways:
@@ -60,7 +64,29 @@ You can also remove pre-existing tokens if you are using a custom language or ha
 ```javascript
 tokenizer.removeToken("L_PAREN");
 ```
-Lastly in order to parse your input code simply call the tokenizer's parse method.  
+You can also ignore certain tokens from appearing in the output by either calling `addIgnore`
+```javascript
+tokenizer.addIgnore("WHITESPACE");
+```
+Or by adding an entire set through an array or an object
+```javascript
+let ignore = ["WHITESPACE", "VAR"];
+tokenizer.addIgnoreSet(ignore);
+
+// Or through an object which allows true or false
+let ignore2 = {
+  "WHITESPACE"  : true,
+  "VAR"         : false,
+};
+tokenizer.addIgnoreSet(ignore2);
+```
+
+If you would like to unIgnore tokens programatically just call the `unIgnore` method
+```javascript
+tokenizer.unIgnore("WHITESPACE");
+```
+
+Lastly in order to tokenize your input code simply call the tokenizer's tokenize method.  
 ```javascript
 let output = tokenizer.tokenize(aString);
 ```  
@@ -88,5 +114,10 @@ Output would then be
   { token: 'NULL_LIT', value: 'null' },
   { token: 'SEMI_COLON', value: ';' } ]
 ```
-
-
+  
+## Suggested Workflow  
+How I suggest development if you are not using built-in languages is to make a file with an object representing token name to regex pattern.  
+If you are using a complex language where the regexes can become very large, separate the building up of those regexes to another file and only export the final regex to your token object.  
+Then export your token object to wherever you are initializing your `Tokenizer` and it is as simple as calling a single method on the `Tokenizer` object.  
+Follow this same workflow if you plan on having a lot of tokens that will either be ignored or unignored.  Separate a file for an object which has all the tokens and true or false depending if you would like them.  
+This keeps the main `Tokenizer` initialization and usage very clean.
