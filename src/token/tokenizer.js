@@ -26,8 +26,8 @@ class Tokenizer {
             throw new noCustomTokensException(this.language);
         }          
         
-        let newKeys = Object..keys(tokenSet);
-        for (key in newKeys) {
+        let newKeys = Object.keys(tokenSet);
+        for (let key in newKeys) {
             if (key in this.tokens) {
                 throw new duplicateTokenException(key);
             }
