@@ -54,7 +54,7 @@ const tokens = {
   L_BRACE : /{/,
   R_BRACE : new RegExp('}').source,
 };
-tokenizer.addTokens(tokens);
+tokenizer.addTokenSet(tokens);
 ```
 You can also remove pre-existing tokens if you are using a custom language or have disabled `strict` mode.  
 ```javascript
