@@ -1,5 +1,8 @@
 // Placeholder
-export function tokenize(aString, tokens) {
+export function tokenize(aString, tokenizer) {
+    let tokens = tokenizer.tokens;
+
+
     let tok = [];
     while (aString) {
         let maxLength = 0;
@@ -19,7 +22,9 @@ export function tokenize(aString, tokens) {
         let before = aString.substring(0, index);
         let after = aString.substring(index + maxLength, aString.length);
         aString = before + after;
-        tok.push({ token: currTok, value: tokValue});
+        if (!tokenizer.ignore[currTok]) {
+            tok.push({ token: currTok, value: tokValue});
+        }
     }
     return tok;
 }

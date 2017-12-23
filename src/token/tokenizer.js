@@ -1,10 +1,11 @@
 import { languages } from "./languages/languageEnum.js"
-import { languageNotFoundException, noCustomTokensException, duplicateTokenException } from "../exceptions/exception.js"
+import { languageNotFoundException, noCustomTokensException, duplicateTokenException, noSuchTokenException } from "../exceptions/exception.js"
 import { tokenize } from "../analyze/analyze.js"
 
 class Tokenizer {
 
     constructor(language) {
+        this.ignore = {};        
         if (language == "") {
             this.language = "Custom";
             this.tokens = {}
@@ -59,12 +60,20 @@ class Tokenizer {
         return delete this.tokens[tokenName];
     }
 
+    addIgnore(tokenName) {
+        if (!(tokenName in this.tokens)) {
+            throw new noSuchtokenException(tokenName);
+        }
+
+        this.ignore[tokenName] = true;
+    }
+
     disableStrict() {
         this.strict = false;
     }
 
     tokenize(aString) {
-        return tokenize(aString, this.tokens);
+        return tokenize(aString, this);
     }
 }
 

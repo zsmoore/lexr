@@ -29,3 +29,13 @@ export class duplicateTokenException {
         return "'" + this.value + "'" + this.message;
     }
 }
+
+export class noSuchTokenException {
+    constructor(token) {
+        this.value = token;
+        this.message = " does not exist in your token set.";
+    }
+    toString() {
+        return "'" + this.value + "'" + this.message;
+    }
+}
