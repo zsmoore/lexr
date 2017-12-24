@@ -5,7 +5,8 @@ import { tokenize } from "../analyze/analyze.js"
 class Tokenizer {
 
     constructor(language) {
-        this.ignore = {};        
+        this.ignore = {};
+        this.errTok = "ERROR";
         if (language == "") {
             this.language = "Custom";
             this.tokens = {}
