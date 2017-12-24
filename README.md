@@ -91,7 +91,8 @@ let ignore2 = {
   "WHITESPACE"  : true,
   "VAR"         : false,
 };
-tokenizer.addIgnoreSet(ignore2);```
+tokenizer.addIgnoreSet(ignore2);
+```
 
 If you would like to unIgnore tokens programatically just call the `unIgnore` method
 ```javascript
