@@ -27,6 +27,13 @@ What is currently supported is
 * Removing Tokens from the token set
 * Ignoring tokens for output either one by one or in a set  
 * UnIgnoring tokens from the token set
+
+## Future Features
+Before the v1.0.0 release I would like to add:  
+* Changing / Overriding token output
+* Add functions when tokens show up
+  
+If there are any good freatures missing feel free to open an issue for a feature request.
   
 ## Built-In Language Support
 * Javascript  
