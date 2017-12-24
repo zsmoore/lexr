@@ -39,3 +39,13 @@ export class noSuchTokenException {
         return "'" + this.value + "'" + this.message;
     }
 }
+
+export class errorTokenCollisionException {
+    constructor(errTok) {
+        this.value = errTok;
+        this.message =  " is in your token set. Choose an error token that is not in your set.";
+    }
+    toString() {
+        return "'" + this.value + "'" + this.message;
+    }
+}

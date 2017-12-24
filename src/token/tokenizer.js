@@ -1,6 +1,6 @@
-import { languages } from "./languages/languageEnum.js"
-import { languageNotFoundException, noCustomTokensException, duplicateTokenException, noSuchTokenException } from "../exceptions/exception.js"
-import { tokenize } from "../analyze/analyze.js"
+import { languages } from "./languages/languageEnum.js";
+import { languageNotFoundException, noCustomTokensException, duplicateTokenException, noSuchTokenException, errorTokenCollisionException } from "../exceptions/exception.js";
+import { tokenize } from "../analyze/analyze.js";
 
 class Tokenizer {
 
@@ -102,11 +102,21 @@ class Tokenizer {
         this.ignore[tokenName] = false;
     }
 
+    setErrTok(errTok) {
+        if (errTok in this.tokens) {
+            throw new errorTokenCollisionException(errTok);
+        }
+        this.errTok = errTok;
+    }
+
     disableStrict() {
         this.strict = false;
     }
 
     tokenize(aString) {
+        if (this.errTok in this.tokens) {
+            throw new errorTokenCollisionException(this.errTok);
+        }
         return tokenize(aString, this);
     }
 }
