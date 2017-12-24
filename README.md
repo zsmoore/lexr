@@ -22,6 +22,8 @@ As a result of having a lightweight library in mind, you can not currently add f
 What is currently supported is  
 * Using built-in or custom tokens
 * Adding Tokens either one by one or in a set to the tokenizer
+* Error Detection
+* Overwriting error token name
 * Removing Tokens from the token set
 * Ignoring tokens for output either one by one or in a set  
 * UnIgnoring tokens from the token set
@@ -64,6 +66,10 @@ You can also remove pre-existing tokens if you are using a custom language or ha
 ```javascript
 tokenizer.removeToken("L_PAREN");
 ```
+By default the error token name when detecting an uncaught token will be `ERROR` however, if you would like to change the name you can do so by calling `setErrTok` as so:
+```javascript
+tokenizer.setErrTok("DIFF_ERROR");
+```
 You can also ignore certain tokens from appearing in the output by either calling `addIgnore`
 ```javascript
 tokenizer.addIgnore("WHITESPACE");
@@ -78,14 +84,12 @@ let ignore2 = {
   "WHITESPACE"  : true,
   "VAR"         : false,
 };
-tokenizer.addIgnoreSet(ignore2);
-```
+tokenizer.addIgnoreSet(ignore2);```
 
 If you would like to unIgnore tokens programatically just call the `unIgnore` method
 ```javascript
 tokenizer.unIgnore("WHITESPACE");
 ```
-
 Lastly in order to tokenize your input code simply call the tokenizer's tokenize method.  
 ```javascript
 let output = tokenizer.tokenize(aString);
@@ -113,6 +117,22 @@ Output would then be
   { token: 'WHITESPACE', value: ' ' },
   { token: 'NULL_LIT', value: 'null' },
   { token: 'SEMI_COLON', value: ';' } ]
+```
+## Sample Program with Token Errors
+```javascript
+let lexr = require('lexr');
+let tokenizer = new lexr.Tokenizer("");
+tokenizer.addToken("PLUS", /\+/);
+tokenizer.setErrTok("DIFF_ERROR");
+let input = "5+5;";
+let output = tokenizer.tokenize(input);
+console.log(output);
+```
+Output would then be  
+```javascript
+[ { token: 'DIFF_ERROR', value: '5' },
+  { token: 'PLUS', value: '+' },
+  { token: 'DIFF_ERROR', value: '5;' } ]
 ```
   
 ## Suggested Workflow  
