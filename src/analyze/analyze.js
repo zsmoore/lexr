@@ -30,7 +30,11 @@ export function tokenize(aString, tokenizer) {
         aString = aString.substring(endTok);
 
         if (!tokenizer.ignore[currTok]) {
-            tok.push({ token: currTok, value: tokValue});
+            let outputObj = { token: currTok, value: tokValue};
+            if (currTok in tokenizer.override) {
+                outputObj["customOut"] = tokenizer.override[currTok];
+            }
+            tok.push(outputObj);
         }
     }
     return tok;

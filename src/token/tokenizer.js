@@ -6,6 +6,7 @@ class Tokenizer {
 
     constructor(language) {
         this.ignore = {};
+        this.override = {};
         this.errTok = "ERROR";
         if (language == "") {
             this.language = "Custom";
@@ -93,13 +94,25 @@ class Tokenizer {
                 this.ignore[key] = tokens[key];
             }
         }
-    }
+    }    
 
     unIgnore(tokenName) {
         if (!(tokenName in this.tokens)) {
             throw new noSuchTokenException(tokenName);
         }
         this.ignore[tokenName] = false;
+    }
+
+    addOverrideSet(overrideSet) {
+        if (!(overrideSet instanceof Object)) {
+            throw new TypeError("addOverrideSet expects an object of tokens to output");
+        }
+        for (let key in overrideSet) {
+            if (!(key in this.tokens)) {
+                throw new noSuchTokenException(key);
+            }
+            this.override[key] = overrideSet[key];
+        }
     }
 
     setErrTok(errTok) {
