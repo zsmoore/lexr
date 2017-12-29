@@ -6,6 +6,7 @@ class Tokenizer {
 
     constructor(language) {
         this.ignore = {};
+        this.customOut = {};
         this.errTok = "ERROR";
         if (language == "") {
             this.language = "Custom";
@@ -28,13 +29,12 @@ class Tokenizer {
             throw new noCustomTokensException(this.language);
         }          
         
-        let newKeys = Object.keys(tokenSet);
-        for (let key in newKeys) {
+        for (let key in tokenSet) {
             if (key in this.tokens) {
                 throw new duplicateTokenException(key);
             }
+            this.tokens[key] = tokenSet[key];
         }
-        this.tokens = Object.assign(this.tokens, tokenSet);
     }
 
     addToken(tokenName, regPattern) {
@@ -93,13 +93,41 @@ class Tokenizer {
                 this.ignore[key] = tokens[key];
             }
         }
-    }
+    }    
 
     unIgnore(tokenName) {
         if (!(tokenName in this.tokens)) {
             throw new noSuchTokenException(tokenName);
         }
         this.ignore[tokenName] = false;
+    }
+
+    addCustomOutSet(customOutSet) {
+        if (!(customOutSet instanceof Object)) {
+            throw new TypeError("addOverrideSet expects an object of tokens to output");
+        }
+        for (let key in customOutSet) {
+            if (!(key in this.tokens)) {
+                throw new noSuchTokenException(key);
+            }
+            this.customOut[key] = customOutSet[key];
+        }
+    }
+
+    addCustomOut(tokenName, output) {
+        if (!(tokenName in this.tokens)) {
+            throw new noSuchTokenException(tokenName);
+        }
+
+        this.customOut[tokenName] = output;
+    }
+
+    removeCustomOut(tokenName) {
+        if (!(tokenName in this.tokens)) {
+            throw new noSuchTokenException(tokenName);
+        }
+
+        return delete this.customOut[tokenName];
     }
 
     setErrTok(errTok) {
