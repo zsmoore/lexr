@@ -35,6 +35,8 @@ What is currently supported is
 * Removing Tokens from the token set
 * Ignoring tokens for output either one by one or in a set  
 * UnIgnoring tokens from the token set
+* Custom Output for tokens  
+* Removing custom output for tokens
 
 ## Future Features
 Before the v1.0.0 release I would like to add:  
@@ -105,7 +107,29 @@ tokenizer.addIgnoreSet(ignore2);
 If you would like to unIgnore tokens programatically just call the `unIgnore` method
 ```javascript
 tokenizer.unIgnore("WHITESPACE");
+```  
+
+There are options to make your output more verbose by adding a `customOut` field to the output object.  
+Similarly to how other operations work you can either add a set of tokens or a single token as well as remove them.
+```javascript
+// Add a set of custom outputs
+let customOut = {
+  "WHITESPACE"  : 2,
+  "VAR"         : 'declaration',
+}
+tokenizer.addCustomOutSet(customOut);
+
+// Add a single custom output
+tokenizer.addCustomOut("SEMI_COLON", 111);
+
+// Remove a custom out
+tokenizer.removeCustomOut("VAR");
+```  
+A sample output object would then look like:  
+```javascript
+{ token: 'WHITESPACE', value: ' ', customOut: 2 }
 ```
+
 Lastly in order to tokenize your input code simply call the tokenizer's tokenize method.  
 ```javascript
 let output = tokenizer.tokenize(aString);
