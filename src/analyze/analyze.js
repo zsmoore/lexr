@@ -31,8 +31,8 @@ export function tokenize(aString, tokenizer) {
 
         if (!tokenizer.ignore[currTok]) {
             let outputObj = { token: currTok, value: tokValue};
-            if (currTok in tokenizer.override) {
-                outputObj["customOut"] = tokenizer.override[currTok];
+            if (currTok in tokenizer.customOut) {
+                outputObj["customOut"] = tokenizer.customOut[currTok];
             }
             tok.push(outputObj);
         }
