@@ -1,4 +1,12 @@
-# lexr
+# lexr  
+[![Build Status via Travis CI](https://travis-ci.org/zsmoore/lexr.svg?branch=develop)](https://travis-ci.org/zsmoore/lexr)
+[![NPM version](https://img.shields.io/npm/v/lexr.svg)](https://www.npmjs.com/package/lexr)
+[![NPM Downloads](https://img.shields.io/npm/dm/lexr.svg?style=flat)](https://www.npmjs.org/package/lexr)  
+[![Dependency Status](https://david-dm.org/zsmoore/lexr.svg?theme=shields.io)](https://david-dm.org/zsmoore/lexr)
+[![devDependency Status](https://david-dm.org/zsmoore/lexr/dev-status.svg?theme=shields.io)](https://david-dm.org/zsmoore/lexr#info=devDependencies)  
+[![Coverage Status](https://coveralls.io/repos/zsmoore/lexr/badge.svg?branch=develop)](https://coveralls.io/r/zsmoore/lexr?branch=develop)
+[![Code Climate](https://img.shields.io/codeclimate/github/zsmoore/lexr.svg?style=flat-square)](https://codeclimate.com/github/zsmoore/lexr)
+
 Lexical analyzer built in Javascript.  
   
 lexr is meant to be a lightweight tokenizer built in Javascript to be more modern and clean than the C ancestor.  
