@@ -7,6 +7,7 @@ class Tokenizer {
     constructor(language) {
         this.ignore = {};
         this.customOut = {};
+        this.functions = {};
         this.errTok = "ERROR";
         if (language == "") {
             this.language = "Custom";
@@ -128,6 +129,18 @@ class Tokenizer {
         }
 
         return delete this.customOut[tokenName];
+    }
+
+    addFunctionSet(functionSet) {
+        if (!(functionSet instanceof Object)) {
+            throw new TypeError("addFunctionSet expects an object of tokens to functions");
+        }
+        for (let key in functionSet) {
+            if (!(key in this.tokens)) {
+                throw new noSuchTokenException(key);
+            }
+            this.functions[key] = functionSet[key];
+        }
     }
 
     setErrTok(errTok) {
