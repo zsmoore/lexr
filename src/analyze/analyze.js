@@ -13,7 +13,7 @@ export function tokenize(aString, tokenizer) {
             if (tempArr !== null 
                 && (tempArr['index'] < startTok
                     || (tempArr['index'] === startTok && tempArr[0].length > endTok))) {
-                    startTok = tempArr['index'] === undefined ? 0 : tempArr['index'];
+                    startTok = tempArr['index'];
                     endTok = tempArr[0].length;
                     tokValue = tempArr[0];
                     currTok = key;

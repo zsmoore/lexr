@@ -1,12 +1,13 @@
 {
   "name": "lexr",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Lexical analyzer built in Javascript",
   "main": "./dist/index.js",
   "scripts": {
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
     "prepublish": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc --reporter=html --reporter=text mocha --require babel-register --require babel-polyfill",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -37,7 +38,12 @@
   "homepage": "https://github.com/zsmoore/lexr#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1"
+    "babel-preset-es2015": "^6.24.1",
+    "coveralls": "^3.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^4.1.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "nyc": "^11.4.1"
   },
   "dependencies": {}
 }
