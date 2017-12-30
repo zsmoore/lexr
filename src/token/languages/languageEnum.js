@@ -1,5 +1,5 @@
-import { jsTokens } from "./js/tokenEnum.js"
+import { jsTokens } from './js/tokenEnum.js';
 
 export const languages = {
-    Javascript      : jsTokens,
+    Javascript: jsTokens,
 };

@@ -1,8 +1,42 @@
-export function tokenize(aString, tokenizer) {
-    let tokens = tokenizer.tokens;
-    let tok = [];
+function formatOutput(currTok, tokValue, tokenizer) {
+    const output = {token: currTok, value: tokValue};
+    if (currTok in tokenizer.customOut) {
+        output.customOut = tokenizer.customOut[currTok];
+    }
+    return output;
+}
 
-    while (aString) {    
+function updateValues(tempArr, values, key) {
+    if (tempArr !== null && (tempArr.index < values.startTok
+            || tempArr.index === values.startTok && tempArr[0].length > values.endTok)) {
+        values.startTok = tempArr.index;
+        values.tokValue = tempArr[0];
+        values.endTok = tempArr[0].length;
+        values.currTok = key;
+    }
+    return values;
+}
+
+function getNearestTok(tokens, aString) {
+    let values = {
+        endTok  : 0,
+        startTok: Number.MAX_SAFE_INTEGER,
+        tokValue: '',
+        currTok : '',
+    };
+
+    for (const key in tokens) {
+        const tempArr = aString.match(tokens[key]);
+        values = updateValues(tempArr, values, key);
+    }
+    return values;
+}
+
+export function tokenize(aString, tokenizer) {
+    const tokens = tokenizer.tokens;
+    const tok = [];
+
+    while (aString) {
         let { endTok, startTok, tokValue, currTok } = getNearestTok(tokens, aString);
 
         // If we did not find a stem off of 0 we have an error
@@ -11,7 +45,7 @@ export function tokenize(aString, tokenizer) {
             tokValue = aString.substring(0, startTok);
             currTok = tokenizer.errTok;
             endTok = startTok;
-        } 
+        }
 
         // Either push to output or ignore
         if (!tokenizer.ignore[currTok]) {
@@ -25,38 +59,4 @@ export function tokenize(aString, tokenizer) {
         aString = aString.substring(endTok);
     }
     return tok;
-}
-
-function formatOutput(currTok, tokValue, tokenizer) {
-    let output = {token: currTok, value: tokValue};
-    if (currTok in tokenizer.customOut) {
-        output['customOut'] = tokenizer.customOut[currTok];
-    }
-    return output;
-}
-
-function getNearestTok(tokens, aString) {
-    let values =  {
-        endTok      : 0,
-        startTok    : Number.MAX_SAFE_INTEGER,
-        tokValue    : "",
-        currTok     : ""
-    };
-    
-    for (let key in tokens) {         
-        let tempArr = aString.match(tokens[key]); 
-        values = updateValues(tempArr, values, key);
-    }    
-    return values;
-}
-
-function updateValues(tempArr, values, key) {
-    if (tempArr != null && (tempArr['index'] < values.startTok
-            || (tempArr['index'] === values.startTok && tempArr[0].length > values.endTok))) {
-        values.startTok = tempArr['index'];
-        values.tokValue = tempArr[0];
-        values.endTok = tempArr[0].length;
-        values.currTok = key;
-    }
-    return values
 }

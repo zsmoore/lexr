@@ -1,6 +1,18 @@
-import { languages } from "./languages/languageEnum.js";
-import { languageNotFoundException, noCustomTokensException, duplicateTokenException, noSuchTokenException, errorTokenCollisionException } from "../exceptions/exception.js";
-import { tokenize } from "../analyze/analyze.js";
+import { DuplicateTokenException,
+    ErrorTokenCollisionException,
+    LanguageNotFoundException,
+    NoCustomTokensException,
+    NoSuchTokenException } from '../exceptions/exception.js';
+import { languages } from './languages/languageEnum.js';
+import { tokenize } from '../analyze/analyze.js';
+
+function checkNoSuchToken(tokenName, tokenSet) {
+    if (!(tokenName in tokenSet)) { throw new NoSuchTokenException(tokenName); }
+}
+
+function checkErrorTokCollision(errTok, tokenSet) {
+    if (errTok in tokenSet) { throw new ErrorTokenCollisionException(errTok); }
+}
 
 class Tokenizer {
 
@@ -8,12 +20,12 @@ class Tokenizer {
         this.ignore = {};
         this.customOut = {};
         this.functions = {};
-        this.errTok = "ERROR";
-        if (language == "") {
-            this.language = "Custom";
-            this.tokens = {}
+        this.errTok = 'ERROR';
+        if (language === '') {
+            this.language = 'Custom';
+            this.tokens = {};
         } else if (!(language in languages)) {
-            throw new languageNotFoundException(language);
+            throw new LanguageNotFoundException(language);
         } else {
             this.tokens = languages[language];
             this.language = language;
@@ -23,18 +35,18 @@ class Tokenizer {
 
     addTokenSet(tokenSet) {
         if (!(tokenSet instanceof Object)) {
-           throw new TypeError("addTokenSet expects an object of token names to regex patterns"); 
-        } 
-    
+            throw new TypeError('addTokenSet expects an object of token names to regex patterns');
+        }
+
         if (this.strict) {
-            throw new noCustomTokensException(this.language);
-        }          
-        
-        for (let key in tokenSet) {
+            throw new NoCustomTokensException(this.language);
+        }
+
+        for (const key in tokenSet) {
             if (key in this.tokens) {
-                throw new duplicateTokenException(key);
+                throw new DuplicateTokenException(key);
             }
-            
+
             if (!(tokenSet[key] instanceof RegExp)) {
                 throw new TypeError('value of key should be regexp in tokenset');
             }
@@ -44,15 +56,15 @@ class Tokenizer {
 
     addToken(tokenName, regPattern) {
         if (!(regPattern instanceof RegExp)) {
-            throw new TypeError("Second Argument must be of type RegExp");
+            throw new TypeError('Second Argument must be of type RegExp');
         }
 
         if (this.strict) {
-            throw new noCustomTokensException(this.language);
+            throw new NoCustomTokensException(this.language);
         }
 
         if (tokenName in this.tokens) {
-            throw new duplicateTokenException(tokenName);
+            throw new DuplicateTokenException(tokenName);
         }
 
         this.tokens[tokenName] = regPattern;
@@ -60,7 +72,7 @@ class Tokenizer {
 
     removeToken(tokenName) {
         if (this.strict) {
-            throw new noCustomTokensException(this.language);
+            throw new NoCustomTokensException(this.language);
         }
 
         return delete this.tokens[tokenName];
@@ -73,7 +85,7 @@ class Tokenizer {
 
     addIgnoreSet(tokens) {
         if (!(tokens instanceof Array) && !(tokens instanceof Object)) {
-            throw new TypeError("addIgnoreSet expects either an array of tokens or object of tokens to ignore or not");
+            throw new TypeError('addIgnoreSet expects either an array of tokens or object of tokens to ignore or not');
         }
 
         if (tokens instanceof Array) {
@@ -82,15 +94,15 @@ class Tokenizer {
                 this.ignore[tokens[i]] = true;
             }
         } else {
-            for (let key in tokens) {
+            for (const key in tokens) {
                 checkNoSuchToken(key, this.tokens);
                 if (tokens[key] !== true && tokens[key] !== false) {
-                    throw new TypeError("When using an object for ignoring the value must be a boolean");
-                }                
+                    throw new TypeError('When using an object for ignoring the value must be a boolean');
+                }
                 this.ignore[key] = tokens[key];
             }
         }
-    }    
+    }
 
     unIgnore(tokenName) {
         checkNoSuchToken(tokenName, this.tokens);
@@ -99,9 +111,9 @@ class Tokenizer {
 
     addCustomOutSet(customOutSet) {
         if (!(customOutSet instanceof Object)) {
-            throw new TypeError("addOverrideSet expects an object of tokens to output");
+            throw new TypeError('addOverrideSet expects an object of tokens to output');
         }
-        for (let key in customOutSet) {
+        for (const key in customOutSet) {
             checkNoSuchToken(key, this.tokens);
             this.customOut[key] = customOutSet[key];
         }
@@ -119,9 +131,9 @@ class Tokenizer {
 
     addFunctionSet(functionSet) {
         if (!(functionSet instanceof Object)) {
-            throw new TypeError("addFunctionSet expects an object of tokens to functions");
+            throw new TypeError('addFunctionSet expects an object of tokens to functions');
         }
-        for (let key in functionSet) {
+        for (const key in functionSet) {
             checkNoSuchToken(key, this.tokens);
 
             if (!(functionSet[key] instanceof Function)) {
@@ -133,7 +145,7 @@ class Tokenizer {
 
     addFunction(tokenName, func) {
         if (!(func instanceof Function)) {
-            throw new TypeError("addFunction expects a function as the second argument");
+            throw new TypeError('addFunction expects a function as the second argument');
         }
         checkNoSuchToken(tokenName, this.tokens);
 
@@ -146,9 +158,7 @@ class Tokenizer {
     }
 
     setErrTok(errTok) {
-        if (errTok in this.tokens) {
-            throw new errorTokenCollisionException(errTok);
-        }
+        checkErrorTokCollision(errTok, this.tokens);
         this.errTok = errTok;
     }
 
@@ -157,15 +167,9 @@ class Tokenizer {
     }
 
     tokenize(aString) {
-        if (this.errTok in this.tokens) {
-            throw new errorTokenCollisionException(this.errTok);
-        }
+        checkErrorTokCollision(this.errTok, this.tokens);
         return tokenize(aString, this);
     }
-}
-
-function checkNoSuchToken(tokenName, tokenSet) {
-    if (!(tokenName in tokenSet)) throw new noSuchTokenException(tokenName);    
 }
 
 module.exports = Tokenizer;
