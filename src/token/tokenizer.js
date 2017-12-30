@@ -34,6 +34,10 @@ class Tokenizer {
             if (key in this.tokens) {
                 throw new duplicateTokenException(key);
             }
+            
+            if (!(tokenSet[key] instanceof RegExp)) {
+                throw new TypeError('value of key should be regexp in tokenset');
+            }
             this.tokens[key] = tokenSet[key];
         }
     }
@@ -82,7 +86,7 @@ class Tokenizer {
                 }
                 this.ignore[tokens[i]] = true;
             }
-        } else if (tokens instanceof Object) {
+        } else {
             for (let key in tokens) {
                 if (!(key in this.tokens)) {
                     throw new noSuchTokenException(key);
@@ -138,6 +142,10 @@ class Tokenizer {
         for (let key in functionSet) {
             if (!(key in this.tokens)) {
                 throw new noSuchTokenException(key);
+            }
+
+            if (!(functionSet[key] instanceof Function)) {
+                throw new TypeError('functionSet value of key must be a function');
             }
             this.functions[key] = functionSet[key];
         }

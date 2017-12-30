@@ -16,9 +16,9 @@ import { identifier } from './identifierRegex.js'
 export const jsTokens = {
 
     // White Space / Comments
-    WHITESPACE      : whiteSpace.source,
-    COMMENT         : comments.source,
-    NEW_LINE        : lineTerminatorSequence.source,
+    WHITESPACE      : whiteSpace,
+    COMMENT         : comments,
+    NEW_LINE        : lineTerminatorSequence,
 
     // Identifier
     IDENTIFIER      : identifier,
@@ -118,15 +118,15 @@ export const jsTokens = {
     BIT_AND_ASSIGN  : /&=/,
     BIT_OR_ASSIGN   : /|=/,
     BIT_XOR_ASSIGN  : /^=/,
-    DIV             : new RegExp('/').source,
-    DIV_ASSIGN      : new RegExp('/=').source,
+    DIV             : new RegExp('/'),
+    DIV_ASSIGN      : new RegExp('/='),
 
     // Literals
     NULL_LIT        : /null/,
     TRUE_LIT        : /true/,
     FALSE_LIT       : /false/,
-    NUM_LIT         : fullNumericLiteral.source,
-    STRING_LIT      : fullStringLiteral.source,
-    REGEXP_LIT      : fullRegularExpressionLiteral.source,
+    NUM_LIT         : fullNumericLiteral,
+    STRING_LIT      : fullStringLiteral,
+    REGEXP_LIT      : fullRegularExpressionLiteral,
 
 };
