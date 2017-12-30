@@ -34,6 +34,10 @@ class Tokenizer {
             if (key in this.tokens) {
                 throw new duplicateTokenException(key);
             }
+            
+            if (!(tokenSet[key] instanceof RegExp)) {
+                throw new TypeError('value of key should be regexp in tokenset');
+            }
             this.tokens[key] = tokenSet[key];
         }
     }
