@@ -86,7 +86,7 @@ class Tokenizer {
                 }
                 this.ignore[tokens[i]] = true;
             }
-        } else if (tokens instanceof Object) {
+        } else {
             for (let key in tokens) {
                 if (!(key in this.tokens)) {
                     throw new noSuchTokenException(key);
