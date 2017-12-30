@@ -143,6 +143,10 @@ class Tokenizer {
             if (!(key in this.tokens)) {
                 throw new noSuchTokenException(key);
             }
+
+            if (!(functionSet[key] instanceof Function)) {
+                throw new TypeError('functionSet value of key must be a function');
+            }
             this.functions[key] = functionSet[key];
         }
     }
