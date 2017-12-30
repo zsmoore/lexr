@@ -36,20 +36,27 @@ function formatOutput(currTok, tokValue, tokenizer) {
 }
 
 function getNearestTok(tokens, aString) {
-    let endTok = 0;
-    let startTok = Number.MAX_SAFE_INTEGER;
-    let tokValue, currTok = "";
+    let values =  {
+        endTok      : 0,
+        startTok    : Number.MAX_SAFE_INTEGER,
+        tokValue    : "",
+        currTok     : ""
+    };
     
-    for (let key in tokens) {                    
-        let tempArr = aString.match(tokens[key]);        
-        if (tempArr !== null 
-            && (tempArr['index'] < startTok
-            || (tempArr['index'] === startTok && tempArr[0].length > endTok))) {
-                startTok = tempArr['index'];
-                endTok = tempArr[0].length;
-                tokValue = tempArr[0];
-                currTok = key;
-        }
+    for (let key in tokens) {         
+        let tempArr = aString.match(tokens[key]); 
+        values = updateValues(tempArr, values, key);
     }    
-    return { 'endTok': endTok, 'startTok': startTok, 'tokValue': tokValue, 'currTok': currTok };
+    return values;
+}
+
+function updateValues(tempArr, values, key) {
+    if (tempArr != null && (tempArr['index'] < values.startTok
+            || (tempArr['index'] === values.startTok && tempArr[0].length > values.endTok))) {
+        values.startTok = tempArr['index'];
+        values.tokValue = tempArr[0];
+        values.endTok = tempArr[0].length;
+        values.currTok = key;
+    }
+    return values
 }
