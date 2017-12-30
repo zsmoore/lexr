@@ -17,10 +17,6 @@ lexr and grammr are an effort to re-think how the traditional process of flex an
   
 Both of these projects are developed in order to be implemented in the re-work of [ivi](https://github.com/project-ivi/ivi) a project which aims to visualize code for the purpose of teaching intro programming.  
 
-### Development Mindset  
-lexr and grammr are, in their current form, aiming to take a hands off approach to user input.  
-In order to keep the library lightweight and clean I am aiming to put more responsibility on the user's side to develop a non-ambiguous / non-token colliding language rather than bloating the library with checks. - this may change in the future.  
-
 ## Features  
 The current Lexical Analyzer has built-in support for Javascript with a plan on extending to other languages.  
 If you do not see your language supported or would like to simply use custom tokens it is possible to do so as well.   
@@ -31,6 +27,7 @@ What is currently supported is
 * Using built-in or custom tokens
 * Adding Tokens either one by one or in a set to the tokenizer
 * Error Detection
+* Functions on Token Recognition
 * Overwriting error token name
 * Removing Tokens from the token set
 * Ignoring tokens for output either one by one or in a set  
@@ -41,7 +38,6 @@ What is currently supported is
 ## Future Features
 Before the v1.0.0 release I would like to add:  
 * Changing / Overriding token output
-* Add functions when tokens show up
   
 If there are any good freatures missing feel free to open an issue for a feature request.
   
@@ -65,6 +61,7 @@ let tokenizer = new lexr.Tokenizer("");
 If you have selected a built-in language you will not be able to add or remove tokens until you disable `strict` mode for tokens.  
 To do so call the `disableStrict()` function on the tokenizer instance.  
 
+### Tokens
 Once you have done so or if you are working on a fully custom tokenizer you can add tokens 2 ways:
 ```javascript
 // Add a single token
@@ -83,10 +80,72 @@ You can also remove pre-existing tokens if you are using a custom language or ha
 ```javascript
 tokenizer.removeToken("L_PAREN");
 ```
+
+### Functions
+If you would like to add functions when tokens are recognized you can add them through a set or through individual addition by calling the proper `addFunction` function.  
+```javascript
+// Add functions through set
+let funs = {
+  WHITESPACE  : function() { whitespaceCount += 1 },
+  IDENTIFIER  : function() { idNum += 1 }
+}
+tokenizer.addFunctionSet(funs);
+
+// Add single function
+tokenizer.addFunction("NEW_LINE", function() { lineCount += 1 });
+
+// Remove function
+tokenizer.removeFunction("IDENTIFIER");
+```    
+### Function Usage  
+lexr separates itself from flex a bit in how functions are handled.  
+Your functions should not use any of the information taken from the current token since you have access to that information post tokenization.  
+This keeps the functions that are being executed smaller and cleaner.
+
+### Example Function Usage  
+An example of code that would go with the functions is as follows
+```javascript
+let funs = {
+  WHITESPACE  : function() { whitespaceCount += 1 },
+  NEW_LINE    : function() { idNum += 1 }
+}
+tokenizer.addFunctionSet(funs);
+let input = `var a = 4;
+             var b = 3;`;            
+let whitespaceCount = 0;
+let idNum = 0;
+tokenizer.tokenize(input);
+```
+### Function Scoping Oddities  
+Since functions are contained within an object in the tokenizer scoping can get a bit iffy.  
+You can use the example above however, a suggested usage is to make a `functions.js` in order to:  
+* declare all of your tokens to functions
+* declare any variables you need outside of the function object
+* export the function object as well as any variables you want access to to the proper files
+
+### yytext Function Alternative  
+Instead of using yytext within your functions the suggested usage is to analyze post tokenization.  
+An example of grabbing all identifier names and inserting them into let's say a symbol table would look like:
+```javascript
+let input = `var a = 4;
+             var b = 3;`;
+let output = tokenizer.tokenize(input);
+
+let symbolTable = {};
+for (let i = 0; i < output.length; i++) {
+  if (output[i].token === "IDENTIFIER") {
+    symbolTable[output[i].value] = undefined;
+    }    
+}
+```
+
+### Error Token
 By default the error token name when detecting an uncaught token will be `ERROR` however, if you would like to change the name you can do so by calling `setErrTok` as so:
 ```javascript
 tokenizer.setErrTok("DIFF_ERROR");
 ```
+
+### Ignore Tokens
 You can also ignore certain tokens from appearing in the output by either calling `addIgnore`
 ```javascript
 tokenizer.addIgnore("WHITESPACE");
@@ -108,7 +167,7 @@ If you would like to unIgnore tokens programatically just call the `unIgnore` me
 ```javascript
 tokenizer.unIgnore("WHITESPACE");
 ```  
-
+### Custom Output
 There are options to make your output more verbose by adding a `customOut` field to the output object.  
 Similarly to how other operations work you can either add a set of tokens or a single token as well as remove them.
 ```javascript
@@ -130,6 +189,7 @@ A sample output object would then look like:
 { token: 'WHITESPACE', value: ' ', customOut: 2 }
 ```
 
+### Tokenization
 Lastly in order to tokenize your input code simply call the tokenizer's tokenize method.  
 ```javascript
 let output = tokenizer.tokenize(aString);
@@ -176,8 +236,20 @@ Output would then be
 ```
   
 ## Suggested Workflow  
-How I suggest development if you are not using built-in languages is to make a file with an object representing token name to regex pattern.  
+How I suggest development if you are not using built-in languages is to separate each part of the tokenization into its own file.  
 If you are using a complex language where the regexes can become very large, separate the building up of those regexes to another file and only export the final regex to your token object.  
-Then export your token object to wherever you are initializing your `Tokenizer` and it is as simple as calling a single method on the `Tokenizer` object.  
-Follow this same workflow if you plan on having a lot of tokens that will either be ignored or unignored.  Separate a file for an object which has all the tokens and true or false depending if you would like them.  
-This keeps the main `Tokenizer` initialization and usage very clean.
+  
+Since the `Tokenizer` can take in sets of information it is easiest to separate everything and use exports between files.
+### Sample project structure
+```
++-- src/
+| +-- index.js
+| +-- functions/
+|   +-- functions.js
+| +-- tokens/
+|   +-- tokens.js
+|   +-- regexPatterns.js
+| +-- ignore/
+|   +-- ignoreTokens.js
+| +-- customOut/
+|   +-- customOutput.js

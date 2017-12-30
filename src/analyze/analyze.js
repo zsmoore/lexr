@@ -36,6 +36,10 @@ export function tokenize(aString, tokenizer) {
             }
             tok.push(outputObj);
         }
+
+        if (tokenizer.functions[currTok] !== undefined) {
+            tokenizer.functions[currTok]();
+        }
     }
     return tok;
 }
