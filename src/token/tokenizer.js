@@ -143,6 +143,26 @@ class Tokenizer {
         }
     }
 
+    addFunction(tokenName, func) {
+        if (!(func instanceof Function)) {
+            throw new TypeError("addFunction expects a function as the second argument");
+        }
+
+        if (!(tokenName in this.tokens)) {
+            throw new noSuchTokenException(tokenName);
+        }
+
+        this.functions[tokenName] = func;
+    }
+
+    removeFunction(tokenName) {
+        if (!(tokenName in this.tokens)) {
+            throw new noSuchTokenException(tokenName);
+        }
+
+        return delete this.functions[tokenName];
+    }
+
     setErrTok(errTok) {
         if (errTok in this.tokens) {
             throw new errorTokenCollisionException(errTok);
