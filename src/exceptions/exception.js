@@ -1,14 +1,14 @@
-export class languageNotFoundException {
+export class LanguageNotFoundException {
     constructor(value) {
         this.value = value;
-        this.message = " not a valid language of pre-defined tokens!";
+        this.message = ' not a valid language of pre-defined tokens!';
     }
     toString() {
         return "'" + this.value + "'" + this.message;
     }
 }
 
-export class noCustomTokensException {
+export class NoCustomTokensException {
     constructor(language) {
         this.value = language;
         this.message = "You are trying to add or remove tokens to a pre-existing language '"
@@ -19,31 +19,31 @@ export class noCustomTokensException {
     }
 }
 
-export class duplicateTokenException {
+export class DuplicateTokenException {
     constructor(token) {
         this.value = token;
-        this.message = " already exists in your token set.  You must first remove " +
-            "it if you would like to override the token";
+        this.message = ' already exists in your token set.  You must first remove ' +
+            'it if you would like to override the token';
     }
     toString() {
         return "'" + this.value + "'" + this.message;
     }
 }
 
-export class noSuchTokenException {
+export class NoSuchTokenException {
     constructor(token) {
         this.value = token;
-        this.message = " does not exist in your token set.";
+        this.message = ' does not exist in your token set.';
     }
     toString() {
         return "'" + this.value + "'" + this.message;
     }
 }
 
-export class errorTokenCollisionException {
+export class ErrorTokenCollisionException {
     constructor(errTok) {
         this.value = errTok;
-        this.message =  " is in your token set. Choose an error token that is not in your set.";
+        this.message = ' is in your token set. Choose an error token that is not in your set.';
     }
     toString() {
         return "'" + this.value + "'" + this.message;

@@ -6,7 +6,7 @@
 
     All token regex productions defined following
     ECMAScript Language Specification 5.1 Edition / June 2011
-    Standard ECMA-262 
+    Standard ECMA-262
     Found at: https://www.ecma-international.org/ecma-262
 
 */
@@ -27,7 +27,7 @@ const decimalIntegerLiteral = new RegExp('(0|(' + nonZeroDigit.source + decimalD
 const signedInteger = new RegExp('((\\+|-)?' + decimalDigits.source + ')');
 const exponentIndicator = new RegExp('(e|E)');
 const exponentPart = new RegExp('(' + exponentIndicator.source + signedInteger.source + ')');
-const decimalLiteral = new RegExp('((' + decimalIntegerLiteral.source + '\\.' 
+const decimalLiteral = new RegExp('((' + decimalIntegerLiteral.source + '\\.'
     + decimalDigits.source + '?' + exponentPart.source + '?' + ')'
     + '|(\\.' + decimalDigits.source + exponentPart.source + '?' + ')'
     + '|(' + decimalIntegerLiteral.source + exponentPart.source + '?))');
@@ -40,7 +40,7 @@ const singleEscapeCharacter = new RegExp(/('|"|\\|b|f|n|r|t|v)/);
 const escapeCharacter = new RegExp('(' + singleEscapeCharacter.source
     + '|' + decimalDigit.source
     + '|x|u)');
-const nonEscapeCharacter = new RegExp('([^' + escapeCharacter.source.replace(/\[|\]/g, "") 
+const nonEscapeCharacter = new RegExp('([^' + escapeCharacter.source.replace(/\[|\]/g, '')
     + '|' + lineTerminator.source + '])');
 const characterEscapeSequence = new RegExp('(' + singleEscapeCharacter.source
     + '|' + nonEscapeCharacter.source + ')');
@@ -53,12 +53,12 @@ const escapeSequence = new RegExp('(' + characterEscapeSequence.source
     + '|' + unicodeEscapeSequence.source + ')');
 const lineContinuation = new RegExp('(\\\\' + lineTerminatorSequence.source + ')');
 const doubleStringCharacter = new RegExp('(([^\\\\"' + lineTerminator.source + '])|(\\\\'
-    + escapeSequence.source + ')' 
+    + escapeSequence.source + ')'
     + '|(' + lineContinuation.source + '))');
 const doubleStringCharacters = new RegExp('(' + doubleStringCharacter.source + '+)');
-const singleStringCharacter = new RegExp("(([^\\\\'" + lineTerminator.source + "])|(\\\\"
-    + escapeSequence.source + ")"
-    + "|(" + lineContinuation.source + "))");
+const singleStringCharacter = new RegExp("(([^\\\\'" + lineTerminator.source + '])|(\\\\'
+    + escapeSequence.source + ')'
+    + '|(' + lineContinuation.source + '))');
 const singleStringCharacters = new RegExp('(' + singleStringCharacter.source + '+)');
 const stringLiteral = new RegExp('(("' + doubleStringCharacters.source + '?")|(\''
     + singleStringCharacters.source + '?\'))');
@@ -74,16 +74,16 @@ const regularExpressionClassChar = new RegExp('(([^\\]\\\\]'
 const regularExpressionFlags = new RegExp(/(g|i|m|u|y)?/);
 const regularExpressionClassChars = new RegExp('(' +
     regularExpressionClassChar.source + '*)?');
-const regularExpressionClass = new RegExp('(\\[' 
+const regularExpressionClass = new RegExp('(\\['
     + regularExpressionClassChars.source + '\\])');
-const regularExpressionFirstChar = new RegExp('(([^*\\\\/\\[]' 
+const regularExpressionFirstChar = new RegExp('(([^*\\\\/\\[]'
     + regularExpressionNonTerminator.source + ')'
     + '|' + regularExpressionBackslashSequence.source
     + '|' + regularExpressionClass.source + ')');
 const regularExpressionChar = new RegExp('(([^\\\\/\\[]'
     + regularExpressionNonTerminator.source + ')'
-    + '|' + regularExpressionBackslashSequence.source + 
-    + '|' + regularExpressionClass.source + ')');
+    + '|' + regularExpressionBackslashSequence.source +
+    Number('|') + regularExpressionClass.source + ')');
 const regularExpressionChars = new RegExp('(|' + regularExpressionChar.source + '+)');
 const regularExpressionBody = new RegExp('(' + regularExpressionFirstChar.source
     + regularExpressionChars.source + ')');
