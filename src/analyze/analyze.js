@@ -39,11 +39,12 @@ function getNearestTok(tokens, aString) {
     let endTok = 0;
     let startTok = Number.MAX_SAFE_INTEGER;
     let tokValue, currTok = "";
-    for (let key in tokens) {            
-        let tempArr = aString.match(tokens[key]);
+    
+    for (let key in tokens) {                    
+        let tempArr = aString.match(tokens[key]);        
         if (tempArr !== null 
             && (tempArr['index'] < startTok
-                || (tempArr['index'] === startTok && tempArr[0].length > endTok))) {
+            || (tempArr['index'] === startTok && tempArr[0].length > endTok))) {
                 startTok = tempArr['index'];
                 endTok = tempArr[0].length;
                 tokValue = tempArr[0];
