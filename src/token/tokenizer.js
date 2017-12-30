@@ -67,10 +67,7 @@ class Tokenizer {
     }
 
     addIgnore(tokenName) {
-        if (!(tokenName in this.tokens)) {
-            throw new noSuchTokenException(tokenName);
-        }
-
+        checkNoSuchToken(tokenName, this.tokens);
         this.ignore[tokenName] = true;
     }
 
@@ -81,17 +78,12 @@ class Tokenizer {
 
         if (tokens instanceof Array) {
             for (let i = 0; i < tokens.length; i++) {
-                if (!(tokens[i] in this.tokens)) {
-                    throw new noSuchTokenException(tokens[i]);
-                }
+                checkNoSuchToken(tokens[i], this.tokens);
                 this.ignore[tokens[i]] = true;
             }
         } else {
             for (let key in tokens) {
-                if (!(key in this.tokens)) {
-                    throw new noSuchTokenException(key);
-                }
-
+                checkNoSuchToken(key, this.tokens);
                 if (tokens[key] !== true && tokens[key] !== false) {
                     throw new TypeError("When using an object for ignoring the value must be a boolean");
                 }                
@@ -101,9 +93,7 @@ class Tokenizer {
     }    
 
     unIgnore(tokenName) {
-        if (!(tokenName in this.tokens)) {
-            throw new noSuchTokenException(tokenName);
-        }
+        checkNoSuchToken(tokenName, this.tokens);
         this.ignore[tokenName] = false;
     }
 
@@ -112,26 +102,18 @@ class Tokenizer {
             throw new TypeError("addOverrideSet expects an object of tokens to output");
         }
         for (let key in customOutSet) {
-            if (!(key in this.tokens)) {
-                throw new noSuchTokenException(key);
-            }
+            checkNoSuchToken(key, this.tokens);
             this.customOut[key] = customOutSet[key];
         }
     }
 
     addCustomOut(tokenName, output) {
-        if (!(tokenName in this.tokens)) {
-            throw new noSuchTokenException(tokenName);
-        }
-
+        checkNoSuchToken(tokenName, this.tokens);
         this.customOut[tokenName] = output;
     }
 
     removeCustomOut(tokenName) {
-        if (!(tokenName in this.tokens)) {
-            throw new noSuchTokenException(tokenName);
-        }
-
+        checkNoSuchToken(tokenName, this.tokens);
         return delete this.customOut[tokenName];
     }
 
@@ -140,9 +122,7 @@ class Tokenizer {
             throw new TypeError("addFunctionSet expects an object of tokens to functions");
         }
         for (let key in functionSet) {
-            if (!(key in this.tokens)) {
-                throw new noSuchTokenException(key);
-            }
+            checkNoSuchToken(key, this.tokens);
 
             if (!(functionSet[key] instanceof Function)) {
                 throw new TypeError('functionSet value of key must be a function');
@@ -155,19 +135,13 @@ class Tokenizer {
         if (!(func instanceof Function)) {
             throw new TypeError("addFunction expects a function as the second argument");
         }
-
-        if (!(tokenName in this.tokens)) {
-            throw new noSuchTokenException(tokenName);
-        }
+        checkNoSuchToken(tokenName, this.tokens);
 
         this.functions[tokenName] = func;
     }
 
     removeFunction(tokenName) {
-        if (!(tokenName in this.tokens)) {
-            throw new noSuchTokenException(tokenName);
-        }
-
+        checkNoSuchToken(tokenName, this.tokens);
         return delete this.functions[tokenName];
     }
 
@@ -188,6 +162,10 @@ class Tokenizer {
         }
         return tokenize(aString, this);
     }
+}
+
+function checkNoSuchToken(tokenName, tokenSet) {
+    if (!(tokenName in tokenSet)) throw new noSuchTokenException(tokenName);    
 }
 
 module.exports = Tokenizer;
