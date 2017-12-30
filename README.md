@@ -72,7 +72,7 @@ tokenizer.addToken("L_PAREN", /\(/);
 // Must be in the form of a Javascript Object
 const tokens = {
   L_BRACE : /{/,
-  R_BRACE : new RegExp('}').source,
+  R_BRACE : new RegExp('}'),
 };
 tokenizer.addTokenSet(tokens);
 ```
