@@ -5,7 +5,7 @@
 [![Dependency Status](https://david-dm.org/zsmoore/lexr.svg?theme=shields.io)](https://david-dm.org/zsmoore/lexr)
 [![devDependency Status](https://david-dm.org/zsmoore/lexr/dev-status.svg?theme=shields.io)](https://david-dm.org/zsmoore/lexr#info=devDependencies)  
 [![Coverage Status](https://coveralls.io/repos/github/zsmoore/lexr/badge.svg?branch=develop)](https://coveralls.io/github/zsmoore/lexr?branch=develop)
-[![Code Climate](https://img.shields.io/codeclimate/github/zsmoore/lexr.svg?style=flat-square)](https://codeclimate.com/github/zsmoore/lexr)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
 Lexical analyzer built in Javascript.  
   
