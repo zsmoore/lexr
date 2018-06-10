@@ -15,6 +15,7 @@ export const jsonTokens = {
     DIGIT : /[0-9]/,
     DOT: /\./,
     E: /(e|e\+|e-|E|E\+|E-)$/,
+    CHAR: /[^"]/,
     WHITESPACE: new RegExp(/(\u0009|\u000B|\u000C|\u0020|\u00A0|\uFEFF)/),
     NEW_LINE: new RegExp(/(\u000A|\u000D(?!\u000A)|\u2028|\u2029|\u000D\u000A)/)
 };
