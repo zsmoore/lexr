@@ -33,6 +33,7 @@ What is currently supported is
   
 ### Built-In Language Support
 * Javascript  
+* Json
 
 # Usage  
 The entire library wraps around a `Tokenizer` class.  
@@ -70,6 +71,15 @@ You can also remove pre-existing tokens if you are using a custom language or ha
 ```javascript
 tokenizer.removeToken("L_PAREN");
 ```
+
+## White Space and New Lines  
+Tokenizer has ability to ignore whitespace and newlines by calling the methods on the instance.  
+Example: 
+```javascript
+let x = lexr.Tokenizer("Json");
+x.ignoreWhiteSpace();
+x.ignoreNewLine();
+```  
 
 ## Functions
 If you would like to add functions when tokens are recognized you can add them through a set or through individual addition by calling the proper `addFunction` function.  

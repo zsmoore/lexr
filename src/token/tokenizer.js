@@ -33,6 +33,20 @@ class Tokenizer {
         }
     }
 
+    ignoreWhiteSpace() {
+        if (!Object.keys(this.tokens).includes("WHITESPACE")) {
+            this.addToken("WHITESPACE", new RegExp(/(\u0009|\u000B|\u000C|\u0020|\u00A0|\uFEFF)/));
+        }
+        this.addIgnore("WHITESPACE");
+    }
+
+    ignoreNewLine() {
+        if (!Object.keys(this.tokens).includes("NEW_LINE")) {
+            this.addToken("NEW_LINE", new RegExp(/(\u000A|\u000D(?!\u000A)|\u2028|\u2029|\u000D\u000A)/));
+        }
+        this.addIgnore("NEW_LINE");
+    }
+
     addTokenSet(tokenSet) {
         if (!(tokenSet instanceof Object)) {
             throw new TypeError('addTokenSet expects an object of token names to regex patterns');
